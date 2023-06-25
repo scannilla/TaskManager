@@ -40,9 +40,15 @@
     <ClCompile Include="TaskDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FrequencyDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="TaskDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="FrequencyDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

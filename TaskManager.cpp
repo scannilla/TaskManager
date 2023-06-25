@@ -48,18 +48,7 @@ void TaskManager::handleAddTask()
 
     // Execute the dialog as a modal dialog
     if (dialog.exec() == QDialog::Accepted) {
-        // Retrieve the input values from the dialog
-        QString taskName = dialog.getTaskName();
-        QString action = dialog.getAction();
-        QDateTime schedule = dialog.getSchedule();
-
-        // Process the input values as needed
-        // For example, you can add the task to a list or perform any other task
-
-        // Print the values to the console as an example
-        qDebug() << "Task Name: " << taskName;
-        qDebug() << "Action: " << action;
-        qDebug() << "Schedule: " << schedule.toString(Qt::ISODate);
+        qDebug() << "Test";
     }
     else {
 		qDebug() << "User canceled the dialog";

@@ -1,4 +1,6 @@
 #include "taskdialog.h"
+#include <QPushButton>
+#include "FrequencyDialog.h"
 
 TaskDialog::TaskDialog(QWidget* parent)
     : QDialog(parent)
@@ -8,15 +10,16 @@ TaskDialog::TaskDialog(QWidget* parent)
     QVBoxLayout* layout = new QVBoxLayout(this);
 
     // Task Name
-    QLabel* taskLabel = new QLabel("Task Name:");
+    taskLabel = new QLabel("Task Name:");
     taskLineEdit = new QLineEdit;
+
+    // Task Layout
     QHBoxLayout* taskLayout = new QHBoxLayout;
     taskLayout->addWidget(taskLabel);
     taskLayout->addWidget(taskLineEdit);
 
     // Action
-
-    QLabel* actionLabel = new QLabel("Action:");
+    actionLabel = new QLabel("Action:");
     actionComboBox = new QComboBox;
     actionComboBox->addItem("Plasse select an action");
     actionComboBox->setCurrentIndex(0);
@@ -24,31 +27,29 @@ TaskDialog::TaskDialog(QWidget* parent)
     actionComboBox->addItem("Print");
     actionComboBox->addItem("Check File");
 
+    // Action Layout
     QHBoxLayout* actionLayout = new QHBoxLayout;
     actionLayout->addWidget(actionLabel);
     actionLayout->addWidget(actionComboBox);
 
-    bool bRet= connect(actionComboBox, QOverload<const QString&>::of(&QComboBox::currentTextChanged),
-        this, &TaskDialog::handleActionSelection);
-    Q_ASSERT(bRet);
+    connect(actionComboBox, QOverload<const QString&>::of(&QComboBox::currentTextChanged), this, &TaskDialog::handleActionSelection);
 
-    extraLabel = new QLabel("Text to Print:");
-    textToPrintLineEdit = new QLineEdit;
-    fileToCheckLineEdit = new QLineEdit;
+    descriptionLabel = new QLabel("Text to Print:");
+    descriptionLineEdit = new QLineEdit;
 
     QHBoxLayout* extraLayout = new QHBoxLayout;
-    extraLayout->addWidget(extraLabel);
-    extraLayout->addWidget(textToPrintLineEdit);
-    extraLayout->addWidget(fileToCheckLineEdit);
+    extraLayout->addWidget(descriptionLabel);
+    extraLayout->addWidget(descriptionLineEdit);
     extraLayout->setContentsMargins(0, 0, 0, 0);
     extraLayout->setEnabled(false);
 
     // Schedule
-    QLabel* scheduleLabel = new QLabel("Schedule:");
-    scheduleDateTimeEdit = new QDateTimeEdit;
+    scheduleLabel = new QLabel("Schedule:");
+    schedulePushButton = new QPushButton("Schedule");
+    connect(schedulePushButton, &QPushButton::clicked, this, &TaskDialog::handleButtonClicked);
     QHBoxLayout* scheduleLayout = new QHBoxLayout;
     scheduleLayout->addWidget(scheduleLabel);
-    scheduleLayout->addWidget(scheduleDateTimeEdit);
+    scheduleLayout->addWidget(schedulePushButton);
 
     // Buttons
     QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -62,31 +63,32 @@ TaskDialog::TaskDialog(QWidget* parent)
     layout->addWidget(buttonBox);
 }
 
-QString TaskDialog::getTaskName() const
+QString TaskDialog::getTaskName()
 {
     return taskLineEdit->text();
 }
 
-QString TaskDialog::getAction() const
-{
-    return actionLineEdit->text();
-}
 
-QDateTime TaskDialog::getSchedule() const
-{
-    return scheduleDateTimeEdit->dateTime();
-}
 
 void TaskDialog::handleActionSelection(const QString& action)
 {
     if (action == "Print") {
-        extraLabel->setText("Text to Print:");
-        textToPrintLineEdit->setEnabled(true);
-        fileToCheckLineEdit->setEnabled(false);
+        descriptionLabel->setText("Text to Print:");
     }
     else if (action == "Check File") {
-        extraLabel->setText("File to Check:");
-        textToPrintLineEdit->setEnabled(false);
-        fileToCheckLineEdit->setEnabled(true);
+        descriptionLabel->setText("File to Check:");
     }
+}
+
+
+void TaskDialog::handleButtonClicked(void) {
+    FrequencyDialog* frequencyDialog = new FrequencyDialog(this);
+    if (frequencyDialog->exec() == QDialog::Accepted)
+    {
+        // Handle the frequency settings
+        int frequency = frequencyDialog->getFrequency();
+        QString unitOfMeasure = frequencyDialog->getUnitOfMeasure();
+
+    }
+
 }

@@ -19,21 +19,24 @@ class TaskDialog : public QDialog
 public:
     TaskDialog(QWidget* parent = nullptr);
 
-    QString getTaskName() const;
-    QString getAction() const;
-    QDateTime getSchedule() const;
+    QString getTaskName();
 
 private:
-    QComboBox* actionComboBox;
+
+    //Labels
+    QLabel* taskLabel;
+    QLabel* actionLabel;
+    QLabel* descriptionLabel;
+    QLabel* scheduleLabel;
+
     QLineEdit* taskLineEdit;
-    QLineEdit* actionLineEdit;
-    QDateTimeEdit* scheduleDateTimeEdit;
-    QLineEdit* textToPrintLineEdit;
-    QLineEdit* fileToCheckLineEdit;
-    QLabel* extraLabel;
+    QComboBox* actionComboBox;
+    QLineEdit* descriptionLineEdit;
+    QPushButton* schedulePushButton;
 
 private slots:
     void handleActionSelection(const QString& action);
+    void handleButtonClicked();
 };
 
 #endif // TASKDIALOG_H
