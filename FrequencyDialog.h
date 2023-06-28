@@ -5,6 +5,8 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QComboBox>
+#include <QTableWidget>
+#include <QTimer>
 
 class FrequencyDialog : public QDialog
 {
@@ -13,8 +15,7 @@ class FrequencyDialog : public QDialog
 public:
     FrequencyDialog(QWidget* parent = nullptr);
 
-    int getFrequency();
-    QString getUnitOfMeasure();
+    QList<QTimer*> getTimers(void);
 
 private:
   
@@ -24,6 +25,14 @@ private:
     QLineEdit* numberLineEdit;
     QLabel* unitLabel;
     QComboBox* unitComboBox;
+    QTableWidget* scheduleTable;
+
+    //List of QTimer associated with the current task
+    QList<QTimer*> timerList;
+
+private slots:
+    void handleAddScheduleButton();
+    void handleDeleteButton();
 };
 
 #endif // FREQUENCYDIALOG_H

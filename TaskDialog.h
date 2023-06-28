@@ -9,6 +9,8 @@
 #include <QDialogButtonBox>
 #include <QComboBox>
 #include <QLabel>
+#include <QList>
+#include <QTimer>
 
 
 
@@ -33,6 +35,8 @@ private:
     QComboBox* actionComboBox;
     QLineEdit* descriptionLineEdit;
     QPushButton* schedulePushButton;
+
+    QList<QTimer*> timerList;
 
 private slots:
     void handleActionSelection(const QString& action);

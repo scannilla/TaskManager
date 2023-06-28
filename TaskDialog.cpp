@@ -73,11 +73,19 @@ QString TaskDialog::getTaskName()
 void TaskDialog::handleActionSelection(const QString& action)
 {
     if (action == "Print") {
+        descriptionLabel->setEnabled(true);
+        descriptionLineEdit->setEnabled(true);
         descriptionLabel->setText("Text to Print:");
     }
     else if (action == "Check File") {
+        descriptionLabel->setEnabled(true);
+        descriptionLineEdit->setEnabled(true);
         descriptionLabel->setText("File to Check:");
     }
+    else if (action == "Plasse select an action") {
+		descriptionLabel->setEnabled(false);
+        descriptionLineEdit->setEnabled(false);
+	}
 }
 
 
@@ -85,10 +93,8 @@ void TaskDialog::handleButtonClicked(void) {
     FrequencyDialog* frequencyDialog = new FrequencyDialog(this);
     if (frequencyDialog->exec() == QDialog::Accepted)
     {
-        // Handle the frequency settings
-        int frequency = frequencyDialog->getFrequency();
-        QString unitOfMeasure = frequencyDialog->getUnitOfMeasure();
-
+        timerList = frequencyDialog->getTimers();
+        
     }
 
 }
