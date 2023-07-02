@@ -14,6 +14,9 @@ class FrequencyDialog : public QDialog
 
 public:
     FrequencyDialog(QWidget* parent = nullptr);
+    FrequencyDialog(QList<QTimer*> timerList, QWidget* parent = nullptr);
+
+    void setupLayout();
 
     QList<QTimer*> getTimers(void);
 

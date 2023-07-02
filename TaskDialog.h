@@ -22,6 +22,9 @@ public:
     TaskDialog(QWidget* parent = nullptr);
 
     QString getTaskName();
+    bool getAction();
+    QString getDescription();
+    QList<QTimer*> getTimers();
 
 private:
 

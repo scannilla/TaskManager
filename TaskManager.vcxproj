@@ -86,6 +86,8 @@
     <QtRcc Include="TaskManager.qrc" />
     <QtMoc Include="TaskManager.h" />
     <ClCompile Include="FrequencyDialog.cpp" />
+    <ClCompile Include="ManageTaskDialog.cpp" />
+    <ClCompile Include="Task.cpp" />
     <ClCompile Include="TaskDialog.cpp" />
     <ClCompile Include="TaskManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -95,6 +97,10 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="FrequencyDialog.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="ManageTaskDialog.h" />
+    <QtMoc Include="Task.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -43,12 +43,24 @@
     <ClCompile Include="FrequencyDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ManageTaskDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Task.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="TaskDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="FrequencyDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Task.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ManageTaskDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

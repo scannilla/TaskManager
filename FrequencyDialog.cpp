@@ -7,6 +7,19 @@
 FrequencyDialog::FrequencyDialog(QWidget* parent)
     : QDialog(parent)
 {
+    timerList = QList<QTimer*>();
+    setupLayout();
+}
+
+FrequencyDialog::FrequencyDialog(QList<QTimer*> timerList, QWidget* parent)
+    : QDialog(parent)
+{
+    this->timerList = timerList;
+	setupLayout();
+	
+}
+
+void FrequencyDialog::setupLayout() {
     setWindowTitle("Frequency Dialog");
 
     QVBoxLayout* layout = new QVBoxLayout(this);
@@ -46,6 +59,28 @@ FrequencyDialog::FrequencyDialog(QWidget* parent)
     scheduleTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     scheduleTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     scheduleTable->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    //If the timer list is not empty, populate the table with the timers
+    if (!timerList.isEmpty()) {
+        for (int i = 0; i < timerList.size(); i++) {
+			int row = scheduleTable->rowCount();
+			scheduleTable->insertRow(row);
+            //Interval in seconds
+            int interval = timerList.at(i)->interval() / 1000;
+			scheduleTable->setItem(row, 0, new QTableWidgetItem(QString::number(interval)));
+			scheduleTable->setItem(row, 1, new QTableWidgetItem("seconds"));
+
+			//add a delete button to the third column
+			QPushButton* deleteButton = new QPushButton("Delete");
+			scheduleTable->setCellWidget(row, 2, deleteButton);
+
+			//connect the delete button to a slot that will delete the row
+			connect(deleteButton, &QPushButton::clicked, this, &FrequencyDialog::handleDeleteButton);
+
+			//Everytime a new row is added, resize the table to fit the new row
+			scheduleTable->resizeRowsToContents();
+		}
+	}
 
     layout->addWidget(scheduleTable);
 }
@@ -95,5 +130,10 @@ void FrequencyDialog::handleDeleteButton() {
 	//When the delete button is pressed, delete the row that the button is in
 	QPushButton* deleteButton = qobject_cast<QPushButton*>(sender());
 	int row = scheduleTable->indexAt(deleteButton->pos()).row();
+    //Get the timer from the timer list and delete it
+    QTimer* timer = timerList.at(row);
+    timerList.removeOne(timer);
+    delete timer;
+    //Remove the row from the table
 	scheduleTable->removeRow(row);
 }

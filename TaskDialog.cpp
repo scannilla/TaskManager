@@ -68,6 +68,24 @@ QString TaskDialog::getTaskName()
     return taskLineEdit->text();
 }
 
+bool TaskDialog::getAction()
+{
+	if (actionComboBox->currentText() == "Print")
+		return false;
+	else
+		return true;
+}
+
+QString TaskDialog::getDescription()
+{
+	return descriptionLineEdit->text();
+}
+
+QList<QTimer*> TaskDialog::getTimers()
+{
+	return timerList;
+}
+
 
 
 void TaskDialog::handleActionSelection(const QString& action)
