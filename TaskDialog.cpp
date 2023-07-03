@@ -1,5 +1,29 @@
-#include "taskdialog.h"
+/*
+ * File: TaskDialog.cpp
+ * Author: S. Cannilla
+ * -----------------------------
+ * Description: Create a new task
+ *
+ * -----------------------------
+ * This file is part of TaskManager.
+ *
+ * TaskManager is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * TaskManager is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with TaskManager. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include <QPushButton>
+
+#include "TaskDialog.h"
 #include "FrequencyDialog.h"
 
 TaskDialog::TaskDialog(QWidget* parent)
@@ -21,7 +45,7 @@ TaskDialog::TaskDialog(QWidget* parent)
     // Action
     actionLabel = new QLabel("Action:");
     actionComboBox = new QComboBox;
-    actionComboBox->addItem("Plasse select an action");
+    actionComboBox->addItem("Please select an action");
     actionComboBox->setCurrentIndex(0);
     actionComboBox->setItemData(0, false, Qt::ItemIsEnabled);
     actionComboBox->addItem("Print");
@@ -32,16 +56,20 @@ TaskDialog::TaskDialog(QWidget* parent)
     actionLayout->addWidget(actionLabel);
     actionLayout->addWidget(actionComboBox);
 
+    //Change the description label and line edit based on the action selected
     connect(actionComboBox, QOverload<const QString&>::of(&QComboBox::currentTextChanged), this, &TaskDialog::handleActionSelection);
 
-    descriptionLabel = new QLabel("Text to Print:");
+    descriptionLabel = new QLabel;
     descriptionLineEdit = new QLineEdit;
+
+    //Show the description label and line edit as disabled until an action is selected
+    descriptionLabel->setEnabled(false);
+    descriptionLineEdit->setEnabled(false);
 
     QHBoxLayout* extraLayout = new QHBoxLayout;
     extraLayout->addWidget(descriptionLabel);
     extraLayout->addWidget(descriptionLineEdit);
     extraLayout->setContentsMargins(0, 0, 0, 0);
-    extraLayout->setEnabled(false);
 
     // Schedule
     scheduleLabel = new QLabel("Schedule:");
@@ -56,6 +84,7 @@ TaskDialog::TaskDialog(QWidget* parent)
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
+    // Add layouts to main layout
     layout->addLayout(taskLayout);
     layout->addLayout(actionLayout);
     layout->addLayout(extraLayout);
@@ -100,7 +129,7 @@ void TaskDialog::handleActionSelection(const QString& action)
         descriptionLineEdit->setEnabled(true);
         descriptionLabel->setText("File to Check:");
     }
-    else if (action == "Plasse select an action") {
+    else if (action == "Please select an action") {
 		descriptionLabel->setEnabled(false);
         descriptionLineEdit->setEnabled(false);
 	}

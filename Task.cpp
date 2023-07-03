@@ -1,6 +1,31 @@
-#include "Task.h"
+/*
+ * File: Task.cpp
+ * Author: S. Cannilla
+ * -----------------------------
+ * Description: Task class implementation
+ *
+ * -----------------------------
+ * This file is part of TaskManager.
+ *
+ * TaskManager is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * TaskManager is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with TaskManager. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 #include <QFile>
 #include <QDebug>
+#include "Task.h"
+
 
 Task::Task()
 {
@@ -42,6 +67,7 @@ void Task::startTimers()
 
 void Task::handleTimer(QTimer* timedOutTImer)
 {
+    //Serialize task execution
     mutex.lock();
     if (action)
     {
@@ -55,6 +81,7 @@ void Task::handleTimer(QTimer* timedOutTImer)
     }
     else
     {
+        //Print the selected string
         qDebug() << *description;
     }
     timedOutTImer->start();
@@ -68,6 +95,7 @@ QString Task::getName()
 
 QString Task::getAction()
 {
+    //Trasnform the bool value in a string
 	if(action)
         return "Check File";
     else

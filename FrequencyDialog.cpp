@@ -1,8 +1,34 @@
-#include "frequencydialog.h"
+/*
+ * File: FrequencyDialog.cpp
+ * Author: S. Cannilla
+ * -----------------------------
+ * Description: Add or remove timers from a task
+ *
+ * -----------------------------
+ * This file is part of TaskManager.
+ *
+ * TaskManager is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * TaskManager is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with TaskManager. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QHeaderView>
 #include <QPushButton>
+
+#include "FrequencyDialog.h"
+
 
 FrequencyDialog::FrequencyDialog(QWidget* parent)
     : QDialog(parent)
@@ -24,34 +50,37 @@ void FrequencyDialog::setupLayout() {
 
     QVBoxLayout* layout = new QVBoxLayout(this);
 
+    //Indicates the frequency of the timer
     numberLabel = new QLabel("Number:");
     numberLineEdit = new QLineEdit;
 
+    //Indicates the unit of measure of the timer
     unitLabel = new QLabel("Unit of Measure:");
     unitComboBox = new QComboBox;
     unitComboBox->addItem("seconds");
     unitComboBox->addItem("minutes");
     unitComboBox->addItem("hours");
     unitComboBox->addItem("days");
-
+    
+    //Create a new timer button
     QPushButton* addScheduleButton = new QPushButton("Add Schedule");
     QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
+    //Add all the widgets to the layout
     layout->addWidget(numberLabel);
     layout->addWidget(numberLineEdit);
     layout->addWidget(unitLabel);
     layout->addWidget(unitComboBox);
     layout->addWidget(addScheduleButton);
     layout->addWidget(buttonBox);
-
+    
+    //Connect the buttons to their slots
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     connect(addScheduleButton, &QPushButton::clicked, this, &FrequencyDialog::handleAddScheduleButton);
 
     //Create a table to hold all the schedules, everytime the add button is pressed a new row is added to the table
     scheduleTable = new QTableWidget;
-
-    //add a third column to the table to hold the delete button
     scheduleTable->setColumnCount(3);
     scheduleTable->setHorizontalHeaderLabels(QStringList() << "Frequency" << "Unit of Measure" << "Delete");
     scheduleTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
